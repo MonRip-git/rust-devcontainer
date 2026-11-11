@@ -1,0 +1,11 @@
+# Optional Cargo configuration reference.
+# Copy to ~/.cargo/config.toml or merge relevant settings into an existing file.
+[build]
+# jobs = 0
+
+[net]
+retry = 3
+git-fetch-with-cli = true
+
+[term]
+color = "always"

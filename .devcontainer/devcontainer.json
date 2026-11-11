@@ -1,0 +1,57 @@
+{
+  "name": "Rust Development · Fedora 45",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "rust-dev",
+  "workspaceFolder": "/workspace",
+  "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
+  "overrideCommand": true,
+  "shutdownAction": "stopCompose",
+  "forwardPorts": [3000, 8000, 8080],
+  "portsAttributes": {
+    "3000": { "label": "Web application" },
+    "8000": { "label": "API server" },
+    "8080": { "label": "Development server" }
+  },
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind,consistency=cached"
+  ],
+  "containerEnv": {
+    "CARGO_HOME": "/home/vscode/.cargo",
+    "RUSTUP_HOME": "/home/vscode/.rustup",
+    "RUST_BACKTRACE": "1",
+    "RUST_LOG": "info"
+  },
+  "initializeCommand": "docker compose -f .devcontainer/docker-compose.yml config --quiet",
+  "onCreateCommand": "bash .devcontainer/scripts/initialize.sh",
+  "postCreateCommand": "bash .devcontainer/scripts/post-create.sh",
+  "postStartCommand": "bash .devcontainer/scripts/post-start.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rust-lang.rust-analyzer",
+        "tamasfe.even-better-toml",
+        "vadimcn.vscode-lldb",
+        "serayuzgur.crates",
+        "usernamehw.errorlens",
+        "streetsidesoftware.code-spell-checker",
+        "EditorConfig.EditorConfig",
+        "eamodio.gitlens",
+        "GitHub.copilot"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
+        "[rust]": {
+          "editor.defaultFormatter": "rust-lang.rust-analyzer",
+          "editor.formatOnSave": true
+        },
+        "rust-analyzer.check.command": "clippy",
+        "rust-analyzer.cargo.allTargets": true,
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true,
+        "terminal.integrated.defaultProfile.linux": "zsh"
+      }
+    }
+  }
+}

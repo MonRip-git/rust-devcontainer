@@ -1,0 +1,15 @@
+add_newline = false
+format = "$directory$git_branch$git_status$rust$character"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = true
+
+[git_branch]
+symbol = " "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style) )'
+
+[rust]
+format = '[ $version ]($style)'

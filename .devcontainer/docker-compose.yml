@@ -1,0 +1,39 @@
+services:
+  rust-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        USERNAME: vscode
+        USER_UID: ${LOCAL_UID:-1000}
+        USER_GID: ${LOCAL_GID:-1000}
+    init: true
+    command: sleep infinity
+    volumes:
+      - ..:/workspace:cached
+      - cargo-registry:/home/vscode/.cargo/registry
+      - cargo-git:/home/vscode/.cargo/git
+      - rustup-data:/home/vscode/.rustup
+    environment:
+      CARGO_HOME: /home/vscode/.cargo
+      RUSTUP_HOME: /home/vscode/.rustup
+      RUST_BACKTRACE: "1"
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=1g
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+volumes:
+  cargo-registry:
+  cargo-git:
+  rustup-data:
